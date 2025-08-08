@@ -119,12 +119,18 @@ function checkRequirements() {
     messages.push(`❌ You have selected ${scienceUnits} units of Science. Max allowed in Year 11 is 6.`);
   }
 
-  const exclusions = [["Mathematics Advanced", "Mathematics Standard 2"], ["Music 1", "Music 2"]];
-  exclusions.forEach(([a, b]) => {
-    if (selected.includes(a) && selected.includes(b)) {
-      messages.push(`❌ Subject exclusion: Cannot take both "${a}" and "${b}".`);
-    }
-  });
+ const exclusions = [
+  ["Mathematics Advanced", "Mathematics Standard 2"],
+  ["Music 1", "Music 2"],
+  ["English Advanced", "English Standard"]
+];
+
+exclusions.forEach(([a, b]) => {
+  if (selected.includes(a) && selected.includes(b)) {
+    messages.push(`❌ Subject exclusion: Cannot take both "${a}" and "${b}".`);
+  }
+});
+
 
   const prereqs = {"English Extension 1": "English Advanced", "Mathematics Extension 1": "Mathematics Advanced"};
   Object.entries(prereqs).forEach(([subject, req]) => {
