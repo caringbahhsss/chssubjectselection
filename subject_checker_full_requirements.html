@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Light&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Lexend Light', sans-serif;
+      font-size: 12px;
+      color: #1c4587;
+      line-height: 1.05;
+    }
+    h2 {
+      color: #1c4587;
+      margin-top: 20px;
+    }
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px 24px;
+      margin-top: 8px;
+    }
+    .requirements-box {
+      margin-top: 20px;
+    }
+    #result {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f5f8fb;
+      border-left: 4px solid #1c4587;
+    }
+    button {
+      background-color: #1c4587;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<h2>2 Unit Subjects</h2>
+<form id="subjectForm">
+<div class="section-grid">
+<div><input type="checkbox" id="ancient_history" name="subjects" value="Ancient History"> Ancient History</div>
+<div><input type="checkbox" id="biology" name="subjects" value="Biology"> Biology</div>
+<div><input type="checkbox" id="business_studies" name="subjects" value="Business Studies"> Business Studies</div>
+<div><input type="checkbox" id="chemistry" name="subjects" value="Chemistry"> Chemistry</div>
+<div><input type="checkbox" id="community_and_family_studies" name="subjects" value="Community and Family Studies"> Community and Family Studies</div>
+<div><input type="checkbox" id="design_and_technology" name="subjects" value="Design and Technology"> Design and Technology</div>
+<div><input type="checkbox" id="drama" name="subjects" value="Drama"> Drama</div>
+<div><input type="checkbox" id="economics" name="subjects" value="Economics"> Economics</div>
+<div><input type="checkbox" id="engineering_studies" name="subjects" value="Engineering Studies"> Engineering Studies</div>
+<div><input type="checkbox" id="english_advanced" name="subjects" value="English Advanced"> English Advanced</div>
+<div><input type="checkbox" id="food_technology" name="subjects" value="Food Technology"> Food Technology</div>
+<div><input type="checkbox" id="french_continuers" name="subjects" value="French Continuers"> French Continuers</div>
+<div><input type="checkbox" id="geography" name="subjects" value="Geography"> Geography</div>
+<div><input type="checkbox" id="investigating_science" name="subjects" value="Investigating Science"> Investigating Science</div>
+<div><input type="checkbox" id="japanese_continuers" name="subjects" value="Japanese Continuers"> Japanese Continuers</div>
+<div><input type="checkbox" id="latin_continuers" name="subjects" value="Latin Continuers"> Latin Continuers</div>
+<div><input type="checkbox" id="legal_studies" name="subjects" value="Legal Studies"> Legal Studies</div>
+<div><input type="checkbox" id="mathematics_advanced" name="subjects" value="Mathematics Advanced"> Mathematics Advanced</div>
+<div><input type="checkbox" id="mathematics_standard_2" name="subjects" value="Mathematics Standard 2"> Mathematics Standard 2</div>
+<div><input type="checkbox" id="modern_history" name="subjects" value="Modern History"> Modern History</div>
+<div><input type="checkbox" id="music_1" name="subjects" value="Music 1"> Music 1</div>
+<div><input type="checkbox" id="music_2" name="subjects" value="Music 2"> Music 2</div>
+<div><input type="checkbox" id="physics" name="subjects" value="Physics"> Physics</div>
+<div><input type="checkbox" id="society_and_culture" name="subjects" value="Society and Culture"> Society and Culture</div>
+<div><input type="checkbox" id="software_engineering" name="subjects" value="Software Engineering"> Software Engineering</div>
+<div><input type="checkbox" id="textiles_and_design" name="subjects" value="Textiles and Design"> Textiles and Design</div>
+<div><input type="checkbox" id="visual_arts" name="subjects" value="Visual Arts"> Visual Arts</div></div>
+<h2>1 Unit Subjects</h2>
+<div class='section-grid'><div><input type="checkbox" id="english_extension_1" name="subjects" value="English Extension 1"> English Extension 1</div>
+<div><input type="checkbox" id="mathematics_extension_1" name="subjects" value="Mathematics Extension 1"> Mathematics Extension 1</div>
+<div><input type="checkbox" id="studies_of_religion_1" name="subjects" value="Studies of Religion 1"> Studies of Religion 1</div></div>
+</form>
+<h2>Requirements Check</h2>
+<div class='requirements-box'>
+<button onclick="checkRequirements()">Check Requirements</button>
+<div id="result"></div>
+</div>
+
+<script>
+function checkRequirements() {
+  const selected = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(cb => cb.value);
+  const result = document.getElementById('result');
+  let messages = [];
+
+  const english = selected.filter(s => s.includes("English"));
+  if (!english.some(s => s.includes("Advanced") || s.includes("Standard"))) {
+    messages.push("❌ You must take 2 units of English (Advanced or Standard).");
+  }
+
+  const totalUnits = selected.reduce((sum, s) => {
+    if (s.includes("Extension 1") || s.includes("Studies of Religion 1")) return sum + 1;
+    return sum + 2;
+  }, 0);
+
+  if (totalUnits < 12) {
+    messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
+  }
+
+  const subjects = selected.map(s => s.replace(/Extension \d/, "").trim());
+  const uniqueSubjects = [...new Set(subjects)];
+  if (uniqueSubjects.length < 4) {
+    messages.push(`❌ You must take at least 4 subjects. You only have ${uniqueSubjects.length}.`);
+  }
+
+  
+  let scienceList = ["Biology", "Chemistry", "Physics", "Investigating Science"];
+  let scienceUnits = selected.filter(s => scienceList.includes(s)).length * 2;
+  if (scienceUnits > 6) {
+    messages.push(`❌ You have selected ${scienceUnits} units of Science. Max allowed in Year 11 is 6.`);
+  }
+
+  const exclusions = [["Mathematics Advanced", "Mathematics Standard 2"], ["Music 1", "Music 2"]];
+  exclusions.forEach(([a, b]) => {
+    if (selected.includes(a) && selected.includes(b)) {
+      messages.push(`❌ Subject exclusion: Cannot take both "${a}" and "${b}".`);
+    }
+  });
+
+  const prereqs = {"English Extension 1": "English Advanced", "Mathematics Extension 1": "Mathematics Advanced"};
+  Object.entries(prereqs).forEach(([subject, req]) => {
+    if (selected.includes(subject) && !selected.includes(req)) {
+      messages.push(`❌ "${subject}" requires "${req}" as a prerequisite.`);
+    }
+  });
+
+  const coreqs = {"Mathematics Extension 1": "Mathematics Advanced"};
+  Object.entries(coreqs).forEach(([subject, req]) => {
+    if (selected.includes(subject) && !selected.includes(req)) {
+      messages.push(`❌ "${subject}" requires "${req}" as a co-requisite.`);
+    }
+  });
+
+  if (messages.length === 0) {
+    messages.push("✅ You meet the basic HSC subject requirements.");
+  }
+
+  result.innerHTML = messages.join("<br>");
+}
+</script>
+
+</body>
+</html>
