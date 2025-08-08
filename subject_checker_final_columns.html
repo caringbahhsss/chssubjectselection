@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Light&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Lexend Light', sans-serif;
+      font-size: 12px;
+      color: #1c4587;
+      line-height: 1.05;
+    }
+    h2 {
+      color: #1c4587;
+      margin-top: 20px;
+    }
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px 24px;
+      margin-top: 8px;
+    }
+    .requirements-box {
+      margin-top: 20px;
+    }
+    #result {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f5f8fb;
+      border-left: 4px solid #1c4587;
+    }
+    button {
+      background-color: #1c4587;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+<style>
+body {
+  font-family: 'Lexend Light', sans-serif;
+  font-size: 14px;
+  color: #1c4587;
+  line-height: 1.3;
+}
+
+.subject-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.subject-item {
+  flex: 1 0 200px;
+  padding: 4px 0;
+}
+</style></head>
+<body>
+<h2>2 Unit Subjects</h2>
+<form id="subjectForm"><h3>2 Unit Subjects</h3><div class="subject-columns">&lt;label&gt;&lt;input type="checkbox" name="subject" value="Ancient History"&gt; Ancient History&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Biology"&gt; Biology&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Business Studies"&gt; Business Studies&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Chemistry"&gt; Chemistry&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Community and Family Studies"&gt; Community and Family Studies&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Design and Technology"&gt; Design and Technology&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Drama"&gt; Drama&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Economics"&gt; Economics&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Engineering Studies"&gt; Engineering Studies&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="English Advanced"&gt; English Advanced&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="English Standard"&gt; English Standard&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Food Technology"&gt; Food Technology&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="French Continuers"&gt; French Continuers&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Geography"&gt; Geography&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Investigating Science"&gt; Investigating Science&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Japanese Continuers"&gt; Japanese Continuers&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Latin Continuers"&gt; Latin Continuers&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Legal Studies"&gt; Legal Studies&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Mathematics Advanced"&gt; Mathematics Advanced&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Mathematics Standard 2"&gt; Mathematics Standard 2&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Modern History"&gt; Modern History&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Music 1"&gt; Music 1&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Music 2"&gt; Music 2&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Physics"&gt; Physics&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Society and Culture"&gt; Society and Culture&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Software Engineering"&gt; Software Engineering&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Textiles and Design"&gt; Textiles and Design&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Visual Arts"&gt; Visual Arts&lt;/label&gt;</div><h3>1 Unit Subjects</h3><div class="subject-columns">&lt;label&gt;&lt;input type="checkbox" name="subject" value="English Extension 1"&gt; English Extension 1&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Mathematics Extension 1"&gt; Mathematics Extension 1&lt;/label&gt;&lt;label&gt;&lt;input type="checkbox" name="subject" value="Studies of Religion 1"&gt; Studies of Religion 1&lt;/label&gt;</div></form>
+<h2>Requirements Check</h2>
+<div class="requirements-box">
+<button onclick="checkRequirements()">Check Requirements</button>
+<div id="result"></div>
+</div>
+<script>
+function checkRequirements() {
+  const selected = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(cb => cb.value);
+  const result = document.getElementById('result');
+  let messages = [];
+
+  const english = selected.filter(s => s.includes("English"));
+  if (!english.some(s => s.includes("Advanced") || s.includes("Standard"))) {
+    messages.push("❌ You must take 2 units of English (Advanced or Standard).");
+  }
+
+  const totalUnits = selected.reduce((sum, s) => {
+    if (s.includes("Extension 1") || s.includes("Studies of Religion 1")) return sum + 1;
+    return sum + 2;
+  }, 0);
+
+  if (totalUnits < 12) {
+    messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
+  }
+
+  const subjects = selected.map(s => s.replace(/Extension \d/, "").trim());
+  const uniqueSubjects = [...new Set(subjects)];
+  if (uniqueSubjects.length < 4) {
+    messages.push(`❌ You must take at least 4 subjects. You only have ${uniqueSubjects.length}.`);
+  }
+
+  
+  let scienceList = ["Biology", "Chemistry", "Physics", "Investigating Science"];
+  let scienceUnits = selected.filter(s => scienceList.includes(s)).length * 2;
+  if (scienceUnits > 6) {
+    messages.push(`❌ You have selected ${scienceUnits} units of Science. Max allowed in Year 11 is 6.`);
+  }
+
+  const exclusions = [["Mathematics Advanced", "Mathematics Standard 2"], ["Music 1", "Music 2"]];
+  exclusions.forEach(([a, b]) => {
+    if (selected.includes(a) && selected.includes(b)) {
+      messages.push(`❌ Subject exclusion: Cannot take both "${a}" and "${b}".`);
+    }
+  });
+
+  const prereqs = {"English Extension 1": "English Advanced", "Mathematics Extension 1": "Mathematics Advanced"};
+  Object.entries(prereqs).forEach(([subject, req]) => {
+    if (selected.includes(subject) && !selected.includes(req)) {
+      messages.push(`❌ "${subject}" requires "${req}" as a prerequisite.`);
+    }
+  });
+
+  const coreqs = {"Mathematics Extension 1": "Mathematics Advanced"};
+  Object.entries(coreqs).forEach(([subject, req]) => {
+    if (selected.includes(subject) && !selected.includes(req)) {
+      messages.push(`❌ "${subject}" requires "${req}" as a co-requisite.`);
+    }
+  });
+
+  if (messages.length === 0) {
+    messages.push("✅ You meet the basic HSC subject requirements.");
+  }
+
+  result.innerHTML = messages.join("<br>");
+}
+</script>
+</body>
+</html>
