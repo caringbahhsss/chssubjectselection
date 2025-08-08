@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subject Checker</title>
+  <style>
+    body {
+      font-family: 'Lexend Light', sans-serif;
+      font-size: 12pt;
+      color: #1c4587;
+      line-height: 1.15;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+      border-collapse: collapse;
+      padding: 8px;
+    }
+    .checker {
+      display: flex;
+      gap: 2rem;
+    }
+    .column {
+      flex: 1;
+    }
+    .requirements {
+      flex: 1;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    h2 {
+      color: #1c4587;
+    }
+    button {
+      margin-top: 10px;
+      padding: 6px 10px;
+      background-color: #1c4587;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>HSC Subject Checker</h2>
+  <div class="checker">
+    <div class="column">
+      <h3>2 Unit Subjects</h3>
+      <label><input type="checkbox" class="subject" data-units="2" data-type="English"> English Advanced</label><br>
+      <label><input type="checkbox" class="subject" data-units="2"> Biology</label><br>
+      <label><input type="checkbox" class="subject" data-units="2"> Chemistry</label><br>
+      <label><input type="checkbox" class="subject" data-units="2"> Mathematics Advanced</label><br>
+    </div>
+    <div class="column">
+      <h3>1 Unit Subjects</h3>
+      <label><input type="checkbox" class="subject" data-units="1" data-extension="true"> English Extension 1</label><br>
+      <label><input type="checkbox" class="subject" data-units="1" data-extension="true"> Mathematics Extension 1</label><br>
+    </div>
+    <div class="requirements" id="requirements">
+      <h3>Requirements Check</h3>
+      <table>
+        <tr><td>Total Units</td><td id="total-units">0</td></tr>
+        <tr><td>Includes English</td><td id="has-english">❌</td></tr>
+        <tr><td>At least 4 subjects</td><td id="has-four-subjects">❌</td></tr>
+        <tr><td>At least three 2-unit courses</td><td id="has-three-2unit">❌</td></tr>
+      </table>
+      <button onclick="checkRequirements()">Check Requirements</button>
+    </div>
+  </div>
+
+  <script>
+    function checkRequirements() {
+      const checkboxes = document.querySelectorAll('.subject:checked');
+      const totalUnits = Array.from(checkboxes).reduce((sum, cb) => sum + parseInt(cb.dataset.units), 0);
+      const subjects = new Set();
+      let english = false;
+      let twoUnitCourses = 0;
+
+      checkboxes.forEach(cb => {
+        let label = cb.parentElement.innerText;
+        subjects.add(label);
+        if (cb.dataset.type === "English") english = true;
+        if (parseInt(cb.dataset.units) === 2 && !cb.dataset.extension) twoUnitCourses++;
+      });
+
+      document.getElementById("total-units").textContent = totalUnits;
+      document.getElementById("has-english").textContent = english ? "✅" : "❌";
+      document.getElementById("has-four-subjects").textContent = subjects.size >= 4 ? "✅" : "❌";
+      document.getElementById("has-three-2unit").textContent = twoUnitCourses >= 3 ? "✅" : "❌";
+    }
+  </script>
+</body>
+</html>
