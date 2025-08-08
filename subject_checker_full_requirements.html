@@ -15,11 +15,11 @@
       margin-top: 20px;
     }
     .section-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px 24px;
-      margin-top: 8px;
-    }
+  column-count: 3;
+  column-gap: 40px;
+  margin-top: 8px;
+}
+
     .requirements-box {
       margin-top: 20px;
     }
@@ -45,7 +45,6 @@
 <form id="subjectForm">
 <div class="section-grid">
 <div><input type="checkbox" id="ancient_history" name="subjects" value="Ancient History"> Ancient History</div>
-
 <div><input type="checkbox" id="biology" name="subjects" value="Biology"> Biology</div>
 <div><input type="checkbox" id="business_studies" name="subjects" value="Business Studies"> Business Studies</div>
 <div><input type="checkbox" id="economics" name="subjects" value="Economics"> Economics</div>
