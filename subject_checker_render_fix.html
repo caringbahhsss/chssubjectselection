@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subject Checker</title>
+  <style>
+    body {
+      font-family: 'Lexend Light', sans-serif;
+      font-size: 16px;
+      line-height: 1.3;
+      padding: 20px;
+      background-color: #ffffff;
+      color: #1c4587;
+    }
+    h2 {
+      color: #1c4587;
+      margin-top: 20px;
+    }
+    .subject-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .subject-list {
+      flex: 1 1 300px;
+      min-width: 250px;
+    }
+    .subject-list label {
+      display: block;
+      margin: 4px 0;
+      color: #000000;
+    }
+    button {
+      background-color: #1c4587;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    table {
+      margin-top: 20px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #1c4587;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h2>2 Unit Subjects</h2>
+  <div class="subject-section">
+    <div class="subject-list">
+      <label><input type="checkbox" name="subject" value="Ancient History"> Ancient History</label>
+      <label><input type="checkbox" name="subject" value="Biology"> Biology</label>
+      <label><input type="checkbox" name="subject" value="Business Studies"> Business Studies</label>
+      <label><input type="checkbox" name="subject" value="Chemistry"> Chemistry</label>
+      <label><input type="checkbox" name="subject" value="Community and Family Studies"> Community and Family Studies</label>
+      <label><input type="checkbox" name="subject" value="Design and Technology"> Design and Technology</label>
+      <label><input type="checkbox" name="subject" value="Drama"> Drama</label>
+      <label><input type="checkbox" name="subject" value="Economics"> Economics</label>
+      <label><input type="checkbox" name="subject" value="Engineering Studies"> Engineering Studies</label>
+      <label><input type="checkbox" name="subject" value="English Advanced"> English Advanced</label>
+      <label><input type="checkbox" name="subject" value="English Standard"> English Standard</label>
+      <label><input type="checkbox" name="subject" value="Food Technology"> Food Technology</label>
+      <label><input type="checkbox" name="subject" value="French Continuers"> French Continuers</label>
+      <label><input type="checkbox" name="subject" value="Geography"> Geography</label>
+      <label><input type="checkbox" name="subject" value="Investigating Science"> Investigating Science</label>
+      <label><input type="checkbox" name="subject" value="Japanese Continuers"> Japanese Continuers</label>
+      <label><input type="checkbox" name="subject" value="Latin Continuers"> Latin Continuers</label>
+      <label><input type="checkbox" name="subject" value="Legal Studies"> Legal Studies</label>
+      <label><input type="checkbox" name="subject" value="Mathematics Advanced"> Mathematics Advanced</label>
+      <label><input type="checkbox" name="subject" value="Mathematics Standard 2"> Mathematics Standard 2</label>
+      <label><input type="checkbox" name="subject" value="Modern History"> Modern History</label>
+      <label><input type="checkbox" name="subject" value="Music 1"> Music 1</label>
+      <label><input type="checkbox" name="subject" value="Music 2"> Music 2</label>
+      <label><input type="checkbox" name="subject" value="Physics"> Physics</label>
+      <label><input type="checkbox" name="subject" value="Society and Culture"> Society and Culture</label>
+      <label><input type="checkbox" name="subject" value="Software Engineering"> Software Engineering</label>
+      <label><input type="checkbox" name="subject" value="Textiles and Design"> Textiles and Design</label>
+      <label><input type="checkbox" name="subject" value="Visual Arts"> Visual Arts</label>
+    </div>
+  </div>
+
+  <h2>1 Unit Subjects</h2>
+  <div class="subject-section">
+    <div class="subject-list">
+      <label><input type="checkbox" name="subject" value="English Extension 1"> English Extension 1</label>
+      <label><input type="checkbox" name="subject" value="Mathematics Extension 1"> Mathematics Extension 1</label>
+      <label><input type="checkbox" name="subject" value="Studies of Religion 1"> Studies of Religion 1</label>
+    </div>
+  </div>
+
+  <button onclick="checkRequirements()">Check Requirements</button>
+
+  <div id="results"></div>
+
+  <script>
+    function checkRequirements() {
+      const checkboxes = document.querySelectorAll('input[name="subject"]:checked');
+      const selectedSubjects = Array.from(checkboxes).map(cb => cb.value);
+      const resultsDiv = document.getElementById("results");
+      const count = selectedSubjects.length;
+
+      const totalUnits = selectedSubjects.reduce((sum, subj) => {
+        return sum + (subj.includes("Extension 1") || subj.includes("Studies of Religion 1") ? 1 : 2);
+      }, 0);
+
+      const hasEnglish = selectedSubjects.includes("English Advanced") || selectedSubjects.includes("English Standard");
+      const twoUnitCourses = selectedSubjects.filter(s => !s.includes("Extension 1") && s !== "Studies of Religion 1");
+      const scienceSubjects = ["Biology", "Chemistry", "Investigating Science", "Physics"];
+      const scienceUnits = selectedSubjects.filter(s => scienceSubjects.includes(s))
+                                           .reduce((sum, s) => sum + (s.includes("Extension") ? 1 : 2), 0);
+
+      const invalidCombo = selectedSubjects.includes("Mathematics Advanced") && selectedSubjects.includes("Mathematics Standard 2");
+
+      let messages = [];
+      messages.push(`<table><tr><th>Requirement</th><th>Status</th></tr>`);
+      messages.push(`<tr><td>2 units of English</td><td>${hasEnglish ? '✅' : '❌'}</td></tr>`);
+      messages.push(`<tr><td>At least 6 subjects</td><td>${count >= 6 ? '✅' : '❌'}</td></tr>`);
+      messages.push(`<tr><td>At least 12 units</td><td>${totalUnits >= 12 ? '✅' : '❌'} (${totalUnits} units)</td></tr>`);
+      messages.push(`<tr><td>Science unit limit (max 6)</td><td>${scienceUnits <= 6 ? '✅' : '❌'} (${scienceUnits} units)</td></tr>`);
+      messages.push(`<tr><td>Mathematics Std + Adv together</td><td>${invalidCombo ? '❌ Invalid combination' : '✅'}</td></tr>`);
+      messages.push(`</table>`);
+
+      resultsDiv.innerHTML = messages.join('');
+    }
+  </script>
+</body>
+</html>
