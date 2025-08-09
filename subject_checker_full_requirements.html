@@ -2,52 +2,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend+Light&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <!-- Lexend Light (weight 300) -->
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400&display=swap" rel="stylesheet">
   <style>
+    :root { --brand: #1c4587; }
+
     .school-header {
-  font-family: 'Lexend', sans-serif;
-  font-weight: 300;
-  font-size: 28px;
-  color: #1c4587;
-  text-align: center;
-  margin-bottom: 20px;
-  padding: 10px 0;
-  border-bottom: 3px solid #1c4587;
-}
-   <header class="school-header">
-  Caringbah High School – Year 11 Subject Selector
-</header>
- body {
-      font-family: 'Lexend Light', sans-serif;
+      font-family: 'Lexend', sans-serif;
+      font-weight: 300;
+      font-size: 28px;
+      color: var(--brand);
+      text-align: center;
+      margin: 0 0 20px;
+      padding: 10px 0;
+      border-bottom: 3px solid var(--brand);
+    }
+
+    body {
+      font-family: 'Lexend', sans-serif;
+      font-weight: 300;        /* light */
       font-size: 16px;
-      color: #1c4587;
+      color: var(--brand);
       line-height: 1.05;
     }
+
     h2 {
-      color: #1c4587;
+      color: var(--brand);
       margin-top: 20px;
     }
+
     .section-grid {
-  column-count: 3;
-  column-gap: 40px;
-  margin-top: 8px;
-}
-.section-grid div {
-  break-inside: avoid;
-  margin-bottom: 6px;
-}
-    .requirements-box {
-      margin-top: 20px;
+      column-count: 3;         /* vertical columns */
+      column-gap: 40px;
+      margin-top: 8px;
     }
+
+    .section-grid div {
+      break-inside: avoid;
+      margin-bottom: 6px;
+    }
+
+    .requirements-box { margin-top: 20px; }
+
     #result {
       margin-top: 10px;
       padding: 10px;
       background: #f5f8fb;
-      border-left: 4px solid #1c4587;
+      border-left: 4px solid var(--brand);
     }
+
     button {
-      background-color: #1c4587;
-      color: white;
+      background-color: var(--brand);
+      color: #fff;
       border: none;
       padding: 6px 12px;
       font-size: 12px;
@@ -56,7 +63,22 @@
     }
   </style>
 </head>
+
 <body>
+  <header class="school-header">
+    Caringbah High School – Year 11 Subject Selector
+  </header>
+
+  <!-- Your existing content starts here -->
+  <!-- e.g.
+  <h2>2 Unit Subjects</h2>
+  <div class="section-grid">
+    ...checkbox items...
+  </div>
+  -->
+</body>
+</html>
+
 <h2>2 Unit Subjects</h2>
 <hr>
 <form id="subjectForm">
