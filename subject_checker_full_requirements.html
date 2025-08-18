@@ -125,7 +125,7 @@
 <div id="unit-counter" style="margin:8px 0; font-weight:600;">
   Units selected: <span id="unitCount">0</span>
 </div>
-// map for 1 unit courses
+
 const unitMap = {
   'English Extension 1': 1,
   'Mathematics Extension 1': 1,
@@ -139,7 +139,6 @@ function updateUnitCounter() {
   if (span) span.textContent = totalUnits;
 }
 
-// update on load and whenever a box changes
 document.addEventListener('DOMContentLoaded', () => {
   updateUnitCounter();
   document.querySelectorAll('input[name="subjects"]').forEach(cb => {
