@@ -122,6 +122,30 @@
 <button onclick="checkRequirements()">Check Requirements</button>
 <div id="result"></div>
 </div>
+<div id="unit-counter" style="margin:8px 0; font-weight:600;">
+  Units selected: <span id="unitCount">0</span>
+</div>
+// map for 1 unit courses
+const unitMap = {
+  'English Extension 1': 1,
+  'Mathematics Extension 1': 1,
+  'Studies of Religion 1': 1
+};
+
+function updateUnitCounter() {
+  const selected = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(cb => cb.value);
+  const totalUnits = selected.reduce((sum, s) => sum + (unitMap[s] || 2), 0);
+  const span = document.getElementById('unitCount');
+  if (span) span.textContent = totalUnits;
+}
+
+// update on load and whenever a box changes
+document.addEventListener('DOMContentLoaded', () => {
+  updateUnitCounter();
+  document.querySelectorAll('input[name="subjects"]').forEach(cb => {
+    cb.addEventListener('change', updateUnitCounter);
+  });
+});
 
 <script>
 function checkRequirements() {
