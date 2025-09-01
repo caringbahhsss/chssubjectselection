@@ -76,8 +76,6 @@
     ...checkbox items...
   </div>
   -->
-</body>
-</html>
 
 <h2>2 Unit Subjects</h2>
 <hr>
@@ -124,7 +122,7 @@
 <h2>Requirements Check</h2>
 <hr>
 <div class='requirements-box'>
-<button onclick="checkRequirements()">Check Requirements</button>
+<button type="button" onclick="checkRequirements()">Check Requirements</button>
 <div id="result"></div>
 </div>
 <div id="unit-counter" style="margin:8px 0; font-weight:600;">
@@ -132,7 +130,7 @@
 </div>
 
 <script>
-// map for 1 unit courses
+
 const unitMap = {
   'English Extension 1': 1,
   'Mathematics Extension 1': 1,
@@ -156,88 +154,87 @@ document.addEventListener('DOMContentLoaded', () => {
 function checkRequirements() {
   const selected = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(cb => cb.value);
   const result = document.getElementById('result');
-  let messages = [];
+  const messages = [];
 
-  const english = selected.filter(s => s.includes("English"));
-  if (!english.some(s => s.includes("Advanced") || s.includes("Standard"))) {
-    messages.push("❌ You must take 2 units of English.");
+  // English 2U required
+  const english = selected.filter(s => s.includes('English'));
+  if (!english.some(s => s.includes('Advanced') || s.includes('Standard'))) {
+    messages.push('❌ You must take 2 units of English.');
   }
 
-  const isAcceleratedStudent = selected.includes("Accelerated Investigating Science");
+  // total units once, using unitMap
+  const totalUnits = selected.reduce((sum, s) => sum + (unitMap[s] || 2), 0);
 
+  // accelerated status
+  const isAcceleratedStudent = selected.includes('Accelerated Investigating Science');
+
+  // unit caps
   if (!isAcceleratedStudent) {
     if (totalUnits < 12) {
       messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
     } else if (totalUnits === 13) {
-      messages.push(`⚠️ You have selected 13 units. This is only allowed with an application.`);
+      messages.push('⚠️ You have selected 13 units. This is only allowed with an application.');
     } else if (totalUnits > 13) {
       messages.push(`❌ You have selected ${totalUnits} units. Maximum allowed is 13 (with application).`);
     }
-  }
-
-  if (isAcceleratedStudent) {
+  } else {
     if (totalUnits < 12) {
       messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
     } else if (totalUnits > 14) {
-      messages.push(`❌ You have selected ${totalUnits} units. Maximum for accelerated students is 14.`);
+      messages.push('❌ You have selected ${totalUnits} units. Maximum for accelerated students is 14.');
     }
   }
-  const totalUnits = selected.reduce((sum, s) => {
-    if (s.includes("Extension 1") || s.includes("Studies of Religion 1")) return sum + 1;
-    return sum + 2;
-  }, 0);
 
-  if (totalUnits < 12) {
-    messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
-  }
-
-  const subjects = selected.map(s => s.replace(/Extension \d/, "").trim());
-  const uniqueSubjects = [...new Set(subjects)];
+  // at least 4 subjects (collapse extensions)
+  const baseSubjects = selected.map(s => s.replace(/ Extension \d/, '').trim());
+  const uniqueSubjects = [...new Set(baseSubjects)];
   if (uniqueSubjects.length < 4) {
     messages.push(`❌ You must take at least 4 subjects. You only have ${uniqueSubjects.length}.`);
   }
 
-  
-  let scienceList = ["Biology", "Chemistry", "Physics", "Investigating Science"];
-  let scienceUnits = selected.filter(s => scienceList.includes(s)).length * 2;
-  if (scienceUnits > 6) {
+  // science cap (Yr 11 max 6U unless accelerated)
+  const scienceList = ['Biology','Chemistry','Physics','Investigating Science','Accelerated Investigating Science'];
+  const scienceUnits = selected
+    .filter(s => scienceList.includes(s))
+    .reduce((sum, s) => sum + (unitMap[s] || 2), 0);
+  if (!isAcceleratedStudent && scienceUnits > 6) {
     messages.push(`❌ You have selected ${scienceUnits} units of Science. Max allowed in Year 11 is 6.`);
   }
 
- const exclusions = [
-  ["Mathematics Advanced", "Mathematics Standard 2"],
-  ["Music 1", "Music 2"],
-  ["English Advanced", "English Standard"]
-];
-
-exclusions.forEach(([a, b]) => {
-  if (selected.includes(a) && selected.includes(b)) {
-    messages.push(`❌ Subject exclusion: Cannot take both "${a}" and "${b}".`);
-  }
-});
-
-
-  const prereqs = {"English Extension 1": "English Advanced", "Mathematics Extension 1": "Mathematics Advanced"};
-  Object.entries(prereqs).forEach(([subject, req]) => {
-    if (selected.includes(subject) && !selected.includes(req)) {
-      messages.push(`❌ "${subject}" requires "${req}" as a prerequisite.`);
+  // exclusions
+  const exclusions = [
+    ['Mathematics Advanced', 'Mathematics Standard 2'],
+    ['Music 1', 'Music 2'],
+    ['English Advanced', 'English Standard']
+  ];
+  exclusions.forEach(([a, b]) => {
+    if (selected.includes(a) && selected.includes(b)) {
+      messages.push(`❌ Subject exclusion: Cannot take both '${a}' and '${b}'.`);
     }
   });
 
-  const coreqs = {"Mathematics Extension 1": "Mathematics Advanced"};
+  // prereqs & coreqs
+  const prereqs = { 'English Extension 1': 'English Advanced', 'Mathematics Extension 1': 'Mathematics Advanced' };
+  Object.entries(prereqs).forEach(([subject, req]) => {
+    if (selected.includes(subject) && !selected.includes(req)) {
+      messages.push(`❌ '${subject}' requires '${req}' as a prerequisite.`);
+    }
+  });
+
+  const coreqs = { 'Mathematics Extension 1': 'Mathematics Advanced' };
   Object.entries(coreqs).forEach(([subject, req]) => {
     if (selected.includes(subject) && !selected.includes(req)) {
-      messages.push(`❌ "${subject}" requires "${req}" as a co-requisite.`);
+      messages.push(`❌ '${subject}' requires '${req}' as a co-requisite.`);
     }
   });
 
   if (messages.length === 0) {
-    messages.push("✅ Your intended Year 11 pattern of study meets HSC requirements.");
+    messages.push('✅ Your intended Year 11 pattern of study meets HSC requirements.');
   }
 
-  result.innerHTML = messages.join("<br>");
+  result.innerHTML = messages.join('<br>');
 }
-</script>
+
 
 </body>
 </html>
