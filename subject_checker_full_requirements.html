@@ -2,9 +2,11 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <!-- Lexend Light (weight 300) -->
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400&display=swap" rel="stylesheet">
   <style>
     :root { --brand: #1c4587; }
+
     .school-header {
       font-family: 'Lexend', sans-serif;
       font-weight: 300;
@@ -15,28 +17,58 @@
       padding: 10px 0;
       border-bottom: 3px solid var(--brand);
     }
+
     body {
       font-family: 'Lexend', sans-serif;
-      font-weight: 300;
+      font-weight: 300;        /* light */
       font-size: 16px;
       color: var(--brand);
-      line-height: 1.05;
-      margin: 0;
-      padding: 0 16px 24px;
+      line-height: 1.2;
     }
-    h2 { color: var(--brand); margin-top: 20px; }
-    .section-grid { column-count: 3; column-gap: 40px; margin-top: 8px; }
-    .section-grid div { break-inside: avoid; margin-bottom: 6px; }
+
+    h2 {
+      color: var(--brand);
+      margin-top: 20px;
+    }
+
+    .section-grid {
+      column-count: 3;         /* vertical columns */
+      column-gap: 40px;
+      margin-top: 8px;
+    }
+
+    .section-grid div {
+      break-inside: avoid;
+      margin-bottom: 6px;
+    }
+
     .requirements-box { margin-top: 20px; }
-    #result { margin-top: 10px; padding: 10px; background: #f5f8fb; border-left: 4px solid var(--brand); }
+
+    #result {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f5f8fb;
+      border-left: 4px solid var(--brand);
+    }
+
     button {
-      background-color: var(--brand); color: #fff; border: none;
-      padding: 6px 12px; font-size: 16px; border-radius: 4px; cursor: pointer;
+      background-color: var(--brand);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    input[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
   </style>
 </head>
-<body>
 
+<body>
   <header class="school-header">
     Caringbah High School – Year 11 Subject Selection - Requirements Check
   </header>
@@ -45,169 +77,191 @@
   <hr>
   <form id="subjectForm">
     <div class="section-grid">
-      <div><input type="checkbox" name="subjects" value="Ancient History"> Ancient History</div>
-      <div><input type="checkbox" name="subjects" value="Biology"> Biology</div>
-      <div><input type="checkbox" name="subjects" value="Business Studies"> Business Studies</div>
-      <div><input type="checkbox" name="subjects" value="Chemistry"> Chemistry</div>
-      <div><input type="checkbox" name="subjects" value="Community and Family Studies"> Community and Family Studies</div>
-      <div><input type="checkbox" name="subjects" value="Design and Technology"> Design and Technology</div>
-      <div><input type="checkbox" name="subjects" value="Drama"> Drama</div>
-      <div><input type="checkbox" name="subjects" value="Economics"> Economics</div>
-      <div><input type="checkbox" name="subjects" value="Engineering Studies"> Engineering Studies</div>
-      <div><input type="checkbox" name="subjects" value="English Advanced"> English Advanced</div>
-      <div><input type="checkbox" name="subjects" value="Food Technology"> Food Technology</div>
-      <div><input type="checkbox" name="subjects" value="French Continuers"> French Continuers</div>
-      <div><input type="checkbox" name="subjects" value="Geography"> Geography</div>
-      <div><input type="checkbox" name="subjects" value="Investigating Science"> Investigating Science</div>
-      <div><input type="checkbox" name="subjects" value="Japanese Continuers"> Japanese Continuers</div>
-      <div><input type="checkbox" name="subjects" value="Latin Continuers"> Latin Continuers</div>
-      <div><input type="checkbox" name="subjects" value="Legal Studies"> Legal Studies</div>
-      <!-- fixed value here -->
-      <div><input type="checkbox" name="subjects" value="Mathematics Advanced"> Mathematics Advanced</div>
-      <div><input type="checkbox" name="subjects" value="Mathematics Standard 2"> Mathematics Standard 2</div>
-      <div><input type="checkbox" name="subjects" value="Modern History"> Modern History</div>
-      <div><input type="checkbox" name="subjects" value="Music 1"> Music 1</div>
-      <div><input type="checkbox" name="subjects" value="Music 2"> Music 2</div>
-      <div><input type="checkbox" name="subjects" value="Physics"> Physics</div>
-      <div><input type="checkbox" name="subjects" value="Society and Culture"> Society and Culture</div>
-      <div><input type="checkbox" name="subjects" value="Software Engineering"> Software Engineering</div>
-      <div><input type="checkbox" name="subjects" value="Visual Arts"> Visual Arts</div>
+      <div><input type="checkbox" id="ancient_history" name="subjects" value="Ancient History"> Ancient History</div>
+      <div><input type="checkbox" id="biology" name="subjects" value="Biology"> Biology</div>
+      <div><input type="checkbox" id="business_studies" name="subjects" value="Business Studies"> Business Studies</div>
+      <div><input type="checkbox" id="chemistry" name="subjects" value="Chemistry"> Chemistry</div>
+      <div><input type="checkbox" id="community_and_family_studies" name="subjects" value="Community and Family Studies"> Community and Family Studies</div>
+      <div><input type="checkbox" id="design_and_technology" name="subjects" value="Design and Technology"> Design and Technology</div>
+      <div><input type="checkbox" id="drama" name="subjects" value="Drama"> Drama</div>
+      <div><input type="checkbox" id="economics" name="subjects" value="Economics"> Economics</div>
+      <div><input type="checkbox" id="engineering_studies" name="subjects" value="Engineering Studies"> Engineering Studies</div>
+      <div><input type="checkbox" id="english_advanced" name="subjects" value="English Advanced"> English Advanced</div>
+      <div><input type="checkbox" id="food_technology" name="subjects" value="Food Technology"> Food Technology</div>
+      <div><input type="checkbox" id="french_continuers" name="subjects" value="French Continuers"> French Continuers</div>
+      <div><input type="checkbox" id="geography" name="subjects" value="Geography"> Geography</div>
+      <div><input type="checkbox" id="investigating_science" name="subjects" value="Investigating Science"> Investigating Science</div>
+      <div><input type="checkbox" id="japanese_continuers" name="subjects" value="Japanese Continuers"> Japanese Continuers</div>
+      <div><input type="checkbox" id="latin_continuers" name="subjects" value="Latin Continuers"> Latin Continuers</div>
+      <div><input type="checkbox" id="legal_studies" name="subjects" value="Legal Studies"> Legal Studies</div>
+      <div><input type="checkbox" id="mathematics_advanced" name="subjects" value="Mathematics Advanced"> Mathematics Advanced</div>
+      <div><input type="checkbox" id="mathematics_standard_2" name="subjects" value="Mathematics Standard 2"> Mathematics Standard 2</div>
+      <div><input type="checkbox" id="modern_history" name="subjects" value="Modern History"> Modern History</div>
+      <div><input type="checkbox" id="music_1" name="subjects" value="Music 1"> Music 1</div>
+      <div><input type="checkbox" id="music_2" name="subjects" value="Music 2"> Music 2</div>
+      <div><input type="checkbox" id="physics" name="subjects" value="Physics"> Physics</div>
+      <div><input type="checkbox" id="society_and_culture" name="subjects" value="Society and Culture"> Society and Culture</div>
+      <div><input type="checkbox" id="software_engineering" name="subjects" value="Software Engineering"> Software Engineering</div>
+      <div><input type="checkbox" id="visual_arts" name="subjects" value="Visual Arts"> Visual Arts</div>
     </div>
 
     <h2>1 Unit Subjects</h2>
     <hr>
-    <div class="section-grid">
-      <div><input type="checkbox" name="subjects" value="English Extension 1"> English Extension 1</div>
-      <div><input type="checkbox" name="subjects" value="Mathematics Extension 1"> Mathematics Extension 1</div>
-      <div><input type="checkbox" name="subjects" value="Studies of Religion 1"> Studies of Religion 1</div>
+    <div class='section-grid'>
+      <div><input type="checkbox" id="english_extension_1" name="subjects" value="English Extension 1"> English Extension 1</div>
+      <div><input type="checkbox" id="mathematics_extension_1" name="subjects" value="Mathematics Extension 1"> Mathematics Extension 1</div>
+      <div><input type="checkbox" id="studies_of_religion_1" name="subjects" value="Studies of Religion 1"> Studies of Religion 1</div>
     </div>
   </form>
 
   <h2>Accelerated Subjects taken during Years 9 & 10</h2>
   <hr>
   <div class="section-grid">
-    <div><input type="checkbox" name="subjects" value="Accelerated Mathematics (3U)"> Accelerated Mathematics (3U)</div>
-    <div><input type="checkbox" name="subjects" value="Accelerated Investigating Science"> Accelerated Investigating Science (2U)</div>
+    <div><input type="checkbox" id="accelerated_math" name="subjects" value="Accelerated Mathematics (3U)"> Accelerated Mathematics (3U)</div>
+    <div><input type="checkbox" id="accelerated_investigating_science" name="subjects" value="Accelerated Investigating Science"> Accelerated Investigating Science (2U)</div>
   </div>
 
   <h2>Requirements Check</h2>
   <hr>
-  <div class="requirements-box">
+  <div class='requirements-box'>
     <button type="button" onclick="checkRequirements()">Check Requirements</button>
     <div id="result"></div>
   </div>
-
   <div id="unit-counter" style="margin:8px 0; font-weight:600;">
     Units selected: <span id="unitCount">0</span>
   </div>
 
   <script>
-    // single source of truth for non-2U courses
-    const unitMap = {
-      'English Extension 1': 1,
-      'Mathematics Extension 1': 1,
-      'Studies of Religion 1': 1,
-      'Accelerated Mathematics (3U)': 3
-    };
+  // map for non-2U courses
+  const unitMap = {
+    'English Extension 1': 1,
+    'Mathematics Extension 1': 1,
+    'Studies of Religion 1': 1,
+    'Accelerated Mathematics (3U)': 3
+  };
 
-    function selectedValues() {
-      return Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(cb => cb.value);
+  function updateUnitCounter() {
+    const selected = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(cb => cb.value);
+    const totalUnits = selected.reduce((sum, s) => sum + (unitMap[s] || 2), 0);
+    const span = document.getElementById('unitCount');
+    if (span) span.textContent = totalUnits;
+  }
+
+  function handleAcceleratedMathToggle() {
+    const accMath = document.getElementById('accelerated_math');
+    const advMath = document.getElementById('mathematics_advanced');
+    const extMath1 = document.getElementById('mathematics_extension_1');
+
+    if (accMath && advMath && extMath1) {
+      if (accMath.checked) {
+        advMath.checked = false;
+        advMath.disabled = true;
+        extMath1.checked = false;
+        extMath1.disabled = true;
+      } else {
+        advMath.disabled = false;
+        extMath1.disabled = false;
+      }
     }
-    function totalUnitsOf(list) {
-      return list.reduce((sum, s) => sum + (unitMap[s] || 2), 0);
+  }
+
+  function checkRequirements() {
+    const selected = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(cb => cb.value);
+    const result = document.getElementById('result');
+    let messages = [];
+
+    // --- English requirement ---
+    const english = selected.filter(s => s.includes("English"));
+    if (!english.some(s => s.includes("Advanced") || s.includes("Standard"))) {
+      messages.push("❌ You must take 2 units of English.");
     }
 
-    function updateUnitCounter() {
-      document.getElementById('unitCount').textContent = totalUnitsOf(selectedValues());
+    // --- Total units ---
+    const totalUnits = selected.reduce((sum, s) => sum + (unitMap[s] || 2), 0);
+    const isAcceleratedStudent = selected.includes("Accelerated Investigating Science");
+
+    if (!isAcceleratedStudent) {
+      if (totalUnits < 12) {
+        messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
+      } else if (totalUnits === 13) {
+        messages.push(`⚠️ You have selected 13 units. This is only allowed with an application.`);
+      } else if (totalUnits > 13) {
+        messages.push(`❌ You have selected ${totalUnits} units. Maximum allowed is 13 (with application).`);
+      }
     }
-    document.addEventListener('DOMContentLoaded', () => {
-      updateUnitCounter();
-      document.querySelectorAll('input[name="subjects"]').forEach(cb => {
-        cb.addEventListener('change', updateUnitCounter);
-      });
+
+    if (isAcceleratedStudent) {
+      if (totalUnits < 12) {
+        messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
+      } else if (totalUnits > 14) {
+        messages.push(`❌ You have selected ${totalUnits} units. Maximum for accelerated students is 14.`);
+      }
+    }
+
+    // --- Subject count ---
+    const subjects = selected.map(s => s.replace(/Extension \d/, "").trim());
+    const uniqueSubjects = [...new Set(subjects)];
+    if (uniqueSubjects.length < 4) {
+      messages.push(`❌ You must take at least 4 subjects. You only have ${uniqueSubjects.length}.`);
+    }
+
+    // --- Science limits ---
+    let scienceList = ["Biology", "Chemistry", "Physics", "Investigating Science"];
+    let scienceUnits = selected.filter(s => scienceList.includes(s)).length * 2;
+    if (scienceUnits > 6) {
+      messages.push(`❌ You have selected ${scienceUnits} units of Science. Max allowed in Year 11 is 6.`);
+    }
+
+    // --- Exclusions ---
+    const exclusions = [
+      ["Mathematics Advanced", "Mathematics Standard 2"],
+      ["Music 1", "Music 2"],
+      ["English Advanced", "English Standard"]
+    ];
+    exclusions.forEach(([a, b]) => {
+      if (selected.includes(a) && selected.includes(b)) {
+        messages.push(`❌ Subject exclusion: Cannot take both "${a}" and "${b}".`);
+      }
     });
 
-    function checkRequirements() {
-      const selected = selectedValues();
-      const messages = [];
-      const result = document.getElementById('result');
-
-      // English 2U required
-      const english = selected.filter(s => s.includes('English'));
-      if (!english.some(s => s.includes('Advanced') || s.includes('Standard'))) {
-        messages.push('❌ You must take 2 units of English.');
+    // --- Prerequisites ---
+    const prereqs = {
+      "English Extension 1": "English Advanced",
+      "Mathematics Extension 1": "Mathematics Advanced"
+    };
+    Object.entries(prereqs).forEach(([subject, req]) => {
+      if (selected.includes(subject) && !selected.includes(req)) {
+        messages.push(`❌ "${subject}" requires "${req}" as a prerequisite.`);
       }
+    });
 
-      // totals and accelerated status
-      const totalUnits = totalUnitsOf(selected);
-      const isAcceleratedStudent = selected.includes('Accelerated Investigating Science');
-
-      // unit caps
-      if (!isAcceleratedStudent) {
-        if (totalUnits < 12) {
-          messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
-        } else if (totalUnits === 13) {
-          messages.push('⚠️ You have selected 13 units. This is only allowed with an application.');
-        } else if (totalUnits > 13) {
-          messages.push(`❌ You have selected ${totalUnits} units. Maximum allowed is 13 (with application).`);
-        }
-      } else {
-        if (totalUnits < 12) {
-          messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
-        } else if (totalUnits > 14) {
-          messages.push('❌ You have selected ${totalUnits} units. Maximum for accelerated students is 14.');
-        }
+    // --- Co-requisites ---
+    const coreqs = { "Mathematics Extension 1": "Mathematics Advanced" };
+    Object.entries(coreqs).forEach(([subject, req]) => {
+      if (selected.includes(subject) && !selected.includes(req)) {
+        messages.push(`❌ "${subject}" requires "${req}" as a co-requisite.`);
       }
+    });
 
-      // ≥ 4 subjects (collapse extensions into base subject)
-      const baseSubjects = selected.map(s => s.replace(/ Extension \d/, '').trim());
-      const uniqueSubjects = [...new Set(baseSubjects)];
-      if (uniqueSubjects.length < 4) {
-        messages.push(`❌ You must take at least 4 subjects. You only have ${uniqueSubjects.length}.`);
-      }
-
-      // science cap (Yr 11 max 6U unless accelerated, and count properly)
-      const scienceList = ['Biology','Chemistry','Physics','Investigating Science','Accelerated Investigating Science'];
-      const scienceUnits = selected
-        .filter(s => scienceList.includes(s))
-        .reduce((sum, s) => sum + (unitMap[s] || 2), 0);
-      if (!isAcceleratedStudent && scienceUnits > 6) {
-        messages.push(`❌ You have selected ${scienceUnits} units of Science. Max allowed in Year 11 is 6.`);
-      }
-
-      // exclusions
-      const exclusions = [
-        ['Mathematics Advanced', 'Mathematics Standard 2'],
-        ['Music 1', 'Music 2'],
-        ['English Advanced', 'English Standard']
-      ];
-      exclusions.forEach(([a, b]) => {
-        if (selected.includes(a) && selected.includes(b)) {
-          messages.push(`❌ Subject exclusion: Cannot take both '${a}' and '${b}'.`);
-        }
-      });
-
-      // prereqs & coreqs
-      const prereqs = { 'English Extension 1': 'English Advanced', 'Mathematics Extension 1': 'Mathematics Advanced' };
-      Object.entries(prereqs).forEach(([subject, req]) => {
-        if (selected.includes(subject) && !selected.includes(req)) {
-          messages.push(`❌ '${subject}' requires '${req}' as a prerequisite.`);
-        }
-      });
-      const coreqs = { 'Mathematics Extension 1': 'Mathematics Advanced' };
-      Object.entries(coreqs).forEach(([subject, req]) => {
-        if (selected.includes(subject) && !selected.includes(req)) {
-          messages.push(`❌ '${subject}' requires '${req}' as a co-requisite.`);
-        }
-      });
-
-      if (messages.length === 0) {
-        messages.push('✅ Your intended Year 11 pattern of study meets HSC requirements.');
-      }
-      result.innerHTML = messages.join('<br>');
+    // ✅ Passed everything
+    if (messages.length === 0) {
+      messages.push("✅ Your intended Year 11 pattern of study meets HSC requirements.");
     }
-  </script>
 
+    result.innerHTML = messages.join("<br>");
+  }
+
+  // --- Init event listeners ---
+  document.addEventListener('DOMContentLoaded', () => {
+    updateUnitCounter();
+    handleAcceleratedMathToggle();
+    document.querySelectorAll('input[name="subjects"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        updateUnitCounter();
+        handleAcceleratedMathToggle();
+      });
+    });
+  });
+  </script>
 </body>
 </html>
-
