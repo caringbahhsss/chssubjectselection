@@ -66,7 +66,7 @@
 
 <body>
   <header class="school-header">
-    Caringbah High School – Year 11 Subject Selector
+    Caringbah High School – Year 11 Subject Selection - Requirements Check
   </header>
 
   <!-- Your existing content starts here -->
@@ -93,7 +93,6 @@
 <div><input type="checkbox" id="economics" name="subjects" value="Economics"> Economics</div>
 <div><input type="checkbox" id="engineering_studies" name="subjects" value="Engineering Studies"> Engineering Studies</div>
 <div><input type="checkbox" id="english_advanced" name="subjects" value="English Advanced"> English Advanced</div>
-<div><input type="checkbox" id="english_standard" name="subjects" value="English Standard"> English Standard</div>
 <div><input type="checkbox" id="food_technology" name="subjects" value="Food Technology"> Food Technology</div>
 <div><input type="checkbox" id="french_continuers" name="subjects" value="French Continuers"> French Continuers</div>
 <div><input type="checkbox" id="geography" name="subjects" value="Geography"> Geography</div>
@@ -154,7 +153,7 @@ function checkRequirements() {
 
   const english = selected.filter(s => s.includes("English"));
   if (!english.some(s => s.includes("Advanced") || s.includes("Standard"))) {
-    messages.push("❌ You must take 2 units of English (Advanced or Standard).");
+    messages.push("❌ You must take 2 units of English.");
   }
 
   const totalUnits = selected.reduce((sum, s) => {
