@@ -163,6 +163,25 @@ function checkRequirements() {
     messages.push("❌ You must take 2 units of English.");
   }
 
+  const isAcceleratedStudent = selected.includes("Accelerated Investigating Science");
+
+  if (!isAcceleratedStudent) {
+    if (totalUnits < 12) {
+      messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
+    } else if (totalUnits === 13) {
+      messages.push(`⚠️ You have selected 13 units. This is only allowed with an application.`);
+    } else if (totalUnits > 13) {
+      messages.push(`❌ You have selected ${totalUnits} units. Maximum allowed is 13 (with application).`);
+    }
+  }
+
+  if (isAcceleratedStudent) {
+    if (totalUnits < 12) {
+      messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
+    } else if (totalUnits > 14) {
+      messages.push(`❌ You have selected ${totalUnits} units. Maximum for accelerated students is 14.`);
+    }
+  }
   const totalUnits = selected.reduce((sum, s) => {
     if (s.includes("Extension 1") || s.includes("Studies of Religion 1")) return sum + 1;
     return sum + 2;
