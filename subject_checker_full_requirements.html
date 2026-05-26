@@ -185,9 +185,9 @@
       if (totalUnits < 12) {
         messages.push(`❌ You have only selected ${totalUnits} units. Minimum is 12.`);
       } else if (totalUnits === 13) {
-        messages.push(`⚠️ You have selected 13 units. This is only allowed with an application.`);
+        messages.push(`❌ You have selected 13 units. Maximum allowed is 12.`);
       } else if (totalUnits > 13) {
-        messages.push(`❌ You have selected ${totalUnits} units. Maximum allowed is 13 (with application).`);
+        messages.push(`❌ You have selected ${totalUnits} units. Maximum allowed is 12.`);
       }
     }
 
