@@ -19,7 +19,6 @@
     .school-header {
       font-weight: 300;
       font-size: 30px;
-      color: var(--brand);
       text-align: center;
       margin: 0 0 20px;
       padding: 10px 0;
@@ -27,7 +26,6 @@
     }
 
     h2 {
-      color: var(--brand);
       margin-top: 20px;
     }
 
@@ -49,8 +47,12 @@
       border-left: 4px solid var(--brand);
     }
 
-    .requirements-box {
-      margin-top: 20px;
+    #unit-counter {
+      margin: 15px 0;
+      padding: 12px;
+      background: #f5f8fb;
+      border-left: 4px solid var(--brand);
+      font-weight: 600;
     }
 
     #result {
@@ -60,14 +62,9 @@
       border-left: 4px solid var(--brand);
     }
 
-    #unit-counter {
-      margin: 12px 0;
-      font-weight: 600;
-    }
-
     button {
       background-color: var(--brand);
-      color: #fff;
+      color: white;
       border: none;
       padding: 6px 12px;
       font-size: 16px;
@@ -85,7 +82,7 @@
 <body>
 
   <header class="school-header">
-    Caringbah High School – Year 11 Subject Selection Calculator
+    Caringbah High School – Year 11 Subject Selection Requirements Check
   </header>
 
   <div class="notice-box">
@@ -155,140 +152,182 @@
   <div id="unit-counter">
     Year 11 units selected: <span id="year11UnitCount">0</span><br>
     Accelerated units selected: <span id="acceleratedUnitCount">0</span><br>
-    Total units displayed: <span id="unitCount">0</span>
+    Total units displayed: <span id="totalUnitCount">0</span><br>
+    Science units in Year 11 pattern: <span id="year11ScienceUnitCount">0</span><br>
+    Science units in HSC pattern: <span id="hscScienceUnitCount">0</span>
   </div>
 
   <h2>Requirements Check</h2>
   <hr>
 
-  <div class="requirements-box">
-    <button type="button" onclick="checkRequirements()">Check Requirements</button>
-    <div id="result"></div>
-  </div>
+  <button type="button" onclick="checkRequirements()">Check Requirements</button>
+  <div id="result"></div>
 
   <script>
-    const unitMap = {
-      "English Extension 1": 1,
-      "Mathematics Extension 1": 1,
-      "Studies of Religion 1": 1,
-      "Accelerated Mathematics (3U)": 3,
-      "Accelerated Investigating Science": 2
-    };
+    const courseData = {
+      "Ancient History": { units: 2, subject: "Ancient History", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Biology": { units: 2, subject: "Biology", nesaDeveloped: true, english: false, science: true, accelerated: false },
+      "Business Studies": { units: 2, subject: "Business Studies", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Chemistry": { units: 2, subject: "Chemistry", nesaDeveloped: true, english: false, science: true, accelerated: false },
+      "Community and Family Studies": { units: 2, subject: "Community and Family Studies", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Design and Technology": { units: 2, subject: "Design and Technology", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Drama": { units: 2, subject: "Drama", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Economics": { units: 2, subject: "Economics", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Engineering Studies": { units: 2, subject: "Engineering Studies", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "English Advanced": { units: 2, subject: "English", nesaDeveloped: true, english: true, science: false, accelerated: false },
+      "English Standard": { units: 2, subject: "English", nesaDeveloped: true, english: true, science: false, accelerated: false },
+      "Food Technology": { units: 2, subject: "Food Technology", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "French Continuers": { units: 2, subject: "French", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Geography": { units: 2, subject: "Geography", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Health & Movement Science": { units: 2, subject: "Health & Movement Science", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Investigating Science": { units: 2, subject: "Investigating Science", nesaDeveloped: true, english: false, science: true, accelerated: false },
+      "Japanese Continuers": { units: 2, subject: "Japanese", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Latin Continuers": { units: 2, subject: "Latin", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Legal Studies": { units: 2, subject: "Legal Studies", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Mathematics Advanced": { units: 2, subject: "Mathematics", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Mathematics Standard 2": { units: 2, subject: "Mathematics", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Modern History": { units: 2, subject: "Modern History", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Music 1": { units: 2, subject: "Music", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Music 2": { units: 2, subject: "Music", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Physics": { units: 2, subject: "Physics", nesaDeveloped: true, english: false, science: true, accelerated: false },
+      "Society and Culture": { units: 2, subject: "Society and Culture", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Software Engineering": { units: 2, subject: "Software Engineering", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Textiles": { units: 2, subject: "Textiles", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Visual Arts": { units: 2, subject: "Visual Arts", nesaDeveloped: true, english: false, science: false, accelerated: false },
 
-    const acceleratedSubjects = [
-      "Accelerated Mathematics (3U)",
-      "Accelerated Investigating Science"
-    ];
+      "English Extension 1": { units: 1, subject: "English", nesaDeveloped: true, english: true, science: false, accelerated: false },
+      "Mathematics Extension 1": { units: 1, subject: "Mathematics", nesaDeveloped: true, english: false, science: false, accelerated: false },
+      "Studies of Religion 1": { units: 1, subject: "Studies of Religion", nesaDeveloped: true, english: false, science: false, accelerated: false },
+
+      "Accelerated Mathematics (3U)": { units: 3, subject: "Mathematics", nesaDeveloped: true, english: false, science: false, accelerated: true },
+      "Accelerated Investigating Science": { units: 2, subject: "Investigating Science", nesaDeveloped: true, english: false, science: true, accelerated: true }
+    };
 
     function getSelectedSubjects() {
       return Array.from(document.querySelectorAll('input[name="subjects"]:checked'))
-        .map(cb => cb.value);
+        .map(checkbox => checkbox.value);
     }
 
-    function getUnits(subject) {
-      return unitMap[subject] || 2;
+    function getSelectedCourses() {
+      return getSelectedSubjects()
+        .map(subject => courseData[subject])
+        .filter(course => course !== undefined);
     }
 
-    function calculateUnits(selected) {
-      const totalUnits = selected.reduce((sum, subject) => sum + getUnits(subject), 0);
+    function calculatePattern() {
+      const courses = getSelectedCourses();
 
-      const acceleratedUnits = selected
-        .filter(subject => acceleratedSubjects.includes(subject))
-        .reduce((sum, subject) => sum + getUnits(subject), 0);
+      const year11Courses = courses.filter(course => !course.accelerated);
+      const acceleratedCourses = courses.filter(course => course.accelerated);
 
-      const year11Units = totalUnits - acceleratedUnits;
+      const totalUnits = courses.reduce((sum, course) => sum + course.units, 0);
+      const year11Units = year11Courses.reduce((sum, course) => sum + course.units, 0);
+      const acceleratedUnits = acceleratedCourses.reduce((sum, course) => sum + course.units, 0);
 
-      return { totalUnits, acceleratedUnits, year11Units };
+      const nesaUnits = courses
+        .filter(course => course.nesaDeveloped)
+        .reduce((sum, course) => sum + course.units, 0);
+
+      const englishUnits = courses
+        .filter(course => course.english)
+        .reduce((sum, course) => sum + course.units, 0);
+
+      const coursesTwoUnitsOrMore = courses
+        .filter(course => course.units >= 2).length;
+
+      const subjects = [...new Set(courses.map(course => course.subject))];
+
+      const year11ScienceUnits = year11Courses
+        .filter(course => course.science)
+        .reduce((sum, course) => sum + course.units, 0);
+
+      const hscScienceUnits = courses
+        .filter(course => course.science)
+        .reduce((sum, course) => sum + course.units, 0);
+
+      return {
+        courses,
+        year11Courses,
+        acceleratedCourses,
+        totalUnits,
+        year11Units,
+        acceleratedUnits,
+        nesaUnits,
+        englishUnits,
+        coursesTwoUnitsOrMore,
+        subjects,
+        year11ScienceUnits,
+        hscScienceUnits
+      };
     }
 
     function updateUnitCounter() {
-      const selected = getSelectedSubjects();
-      const { totalUnits, acceleratedUnits, year11Units } = calculateUnits(selected);
+      const pattern = calculatePattern();
 
-      document.getElementById("unitCount").textContent = totalUnits;
-      document.getElementById("acceleratedUnitCount").textContent = acceleratedUnits;
-      document.getElementById("year11UnitCount").textContent = year11Units;
+      document.getElementById("year11UnitCount").textContent = pattern.year11Units;
+      document.getElementById("acceleratedUnitCount").textContent = pattern.acceleratedUnits;
+      document.getElementById("totalUnitCount").textContent = pattern.totalUnits;
+      document.getElementById("year11ScienceUnitCount").textContent = pattern.year11ScienceUnits;
+      document.getElementById("hscScienceUnitCount").textContent = pattern.hscScienceUnits;
     }
 
     function handleAcceleratedMathToggle() {
-      const accMath = document.getElementById("accelerated_math");
-      const advMath = document.getElementById("mathematics_advanced");
-      const extMath1 = document.getElementById("mathematics_extension_1");
+      const acceleratedMath = document.getElementById("accelerated_math");
+      const mathematicsAdvanced = document.getElementById("mathematics_advanced");
+      const mathematicsExtension1 = document.getElementById("mathematics_extension_1");
 
-      if (accMath.checked) {
-        advMath.checked = false;
-        advMath.disabled = true;
+      if (acceleratedMath.checked) {
+        mathematicsAdvanced.checked = false;
+        mathematicsAdvanced.disabled = true;
 
-        extMath1.checked = false;
-        extMath1.disabled = true;
+        mathematicsExtension1.checked = false;
+        mathematicsExtension1.disabled = true;
       } else {
-        advMath.disabled = false;
-        extMath1.disabled = false;
+        mathematicsAdvanced.disabled = false;
+        mathematicsExtension1.disabled = false;
       }
     }
 
     function checkRequirements() {
       const selected = getSelectedSubjects();
+      const pattern = calculatePattern();
       const result = document.getElementById("result");
-      const { totalUnits, acceleratedUnits, year11Units } = calculateUnits(selected);
-
       let messages = [];
 
-      const hasAcceleratedSubject = acceleratedUnits > 0;
-
-      const englishSubjects = selected.filter(subject => subject.includes("English"));
-      const hasEnglish2Units = englishSubjects.some(subject =>
-        subject === "English Advanced" || subject === "English Standard"
-      );
-
-      if (!hasEnglish2Units) {
-        messages.push("❌ You must select 2 units of English.");
+      if (pattern.year11Units < 12) {
+        messages.push(`❌ You have selected only ${pattern.year11Units} Year 11 units. Students must commence Year 11 with at least 12 units, excluding accelerated courses.`);
       }
 
-      if (year11Units < 12) {
-        messages.push(
-          `❌ You have selected only ${year11Units} Year 11 units. All students, including accelerated students, must commence Year 11 with at least 12 units, excluding accelerated courses.`
-        );
+      if (pattern.nesaUnits < 6) {
+        messages.push("❌ Your pattern of study must include at least 6 units from NESA Developed Courses.");
       }
 
-      if (!hasAcceleratedSubject && year11Units > 12) {
-        messages.push(
-          `❌ You have selected ${year11Units} Year 11 units. Students who are not accelerated should select 12 units.`
-        );
+      if (pattern.englishUnits < 2) {
+        messages.push("❌ Your pattern of study must include at least 2 units of English.");
       }
 
-      if (hasAcceleratedSubject && year11Units === 12) {
-        messages.push(
-          `✅ You have selected 12 Year 11 units, plus ${acceleratedUnits} accelerated unit/s. This meets the accelerated student requirement for the commencement of Year 11.`
-        );
+      if (pattern.coursesTwoUnitsOrMore < 3) {
+        messages.push("❌ Your pattern of study must include at least three courses of 2 units or greater.");
       }
 
-      const subjectsForCount = selected
-        .filter(subject => !acceleratedSubjects.includes(subject))
-        .map(subject => subject.replace(/Extension \d/, "").trim());
-
-      const uniqueSubjects = [...new Set(subjectsForCount)];
-
-      if (uniqueSubjects.length < 4) {
-        messages.push(
-          `❌ You must select at least 4 subjects in your Year 11 pattern of study. You currently have ${uniqueSubjects.length}.`
-        );
+      if (pattern.subjects.length < 4) {
+        messages.push(`❌ Your pattern of study must include at least four subjects, including English. You currently have ${pattern.subjects.length}.`);
       }
 
-      const scienceList = ["Biology", "Chemistry", "Physics", "Investigating Science"];
-      const scienceUnits = selected.filter(subject => scienceList.includes(subject)).length * 2;
+      if (pattern.year11ScienceUnits > 6) {
+        messages.push("❌ A maximum of 6 units of Science may be included in the Year 11 pattern of study.");
+      }
 
-      if (scienceUnits > 6) {
-        messages.push(
-          `❌ You have selected ${scienceUnits} units of Science. The maximum allowed in Year 11 is 6 units.`
-        );
+      if (pattern.hscScienceUnits > 7) {
+        messages.push("❌ A maximum of 7 units of Science may be included in the HSC pattern of study.");
       }
 
       const exclusions = [
         ["Mathematics Advanced", "Mathematics Standard 2"],
         ["Accelerated Mathematics (3U)", "Mathematics Standard 2"],
         ["Music 1", "Music 2"],
-        ["English Advanced", "English Standard"]
+        ["English Advanced", "English Standard"],
+        ["Accelerated Investigating Science", "Investigating Science"]
       ];
 
       exclusions.forEach(([a, b]) => {
@@ -308,8 +347,12 @@
         }
       });
 
+      if (pattern.acceleratedUnits > 0 && pattern.year11Units >= 12) {
+        messages.push(`✅ Accelerated student rule met: you have selected ${pattern.year11Units} Year 11 units, excluding ${pattern.acceleratedUnits} accelerated unit/s.`);
+      }
+
       if (messages.length === 0) {
-        messages.push("✅ Your intended Year 11 pattern of study meets requirements.");
+        messages.push("✅ Your intended pattern of study meets the listed requirements.");
       }
 
       result.innerHTML = messages.join("<br>");
