@@ -365,6 +365,9 @@
       if (pattern.year11Units < 12) {
         messages.push(`❌ You have selected only ${pattern.year11Units} Year 11 units. Students must commence Year 11 with at least 12 units, excluding accelerated courses.`);
       }
+      if (pattern.year11Units > 12) {
+  messages.push(`❌ You have selected ${pattern.year11Units} Year 11 units. Students should select 12 units only, excluding any accelerated courses.`);
+}
 
       if (pattern.nesaUnits < 6) {
         messages.push("❌ Your pattern of study must include at least 6 units from NESA Developed Courses.");
