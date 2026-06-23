@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 
-  <link href="https://fonts.googleapis.com/css2?family=Open Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root { --brand: #2E6D57; }
@@ -26,7 +26,23 @@
     }
 
     h2 {
-      margin-top: 20px;
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    h3 {
+      margin-top: 15px;
+      margin-bottom: 8px;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--brand);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #d7e3df;
+      margin-bottom: 12px;
     }
 
     .section-grid {
@@ -34,13 +50,7 @@
       column-gap: 40px;
       margin-top: 8px;
     }
-h3 {
-  margin-top: 15px;
-  margin-bottom: 8px;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--brand);
-}
+
     .section-grid div {
       break-inside: avoid;
       margin-bottom: 6px;
@@ -53,12 +63,38 @@ h3 {
       border-left: 4px solid var(--brand);
     }
 
-    #unit-counter {
+    .calculator-box {
       margin: 15px 0;
       padding: 12px;
-      background: #f5f8fb;
-      border-left: 4px solid var(--brand);
+      background: #ffffff;
+      border: 1px solid #d7e3df;
+      border-radius: 6px;
+    }
+
+    .calculator-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .calculator-table td {
+      padding: 10px;
+      border-bottom: 1px solid #d7e3df;
+    }
+
+    .calculator-table td:first-child {
       font-weight: 600;
+    }
+
+    .counter-badge {
+      display: inline-block;
+      min-width: 35px;
+      padding: 4px 10px;
+      background: var(--brand);
+      color: white;
+      border-radius: 14px;
+      text-align: center;
+      font-weight: 700;
     }
 
     #result {
@@ -72,10 +108,11 @@ h3 {
       background-color: var(--brand);
       color: white;
       border: none;
-      padding: 6px 12px;
+      padding: 8px 14px;
       font-size: 16px;
       border-radius: 4px;
       cursor: pointer;
+      font-family: 'Open Sans', sans-serif;
     }
 
     input[disabled] {
@@ -88,15 +125,16 @@ h3 {
 <body>
 
   <header class="school-header">
-    Caringbah High School – Year 11 Subject Selection Calculator
+    Caringbah High School - Year 11 Subject Selection Calculator
   </header>
 
   <form id="subjectForm">
 
     <div class="notice-box">
-      <h2>1. Select your subjects<h2>
+      <h2>1. Select your subjects</h2>
     </div>
-    <h3>2-Unit Subjects</h3>
+
+    <h3>2 Unit Subjects</h3>
     <hr>
 
     <div class="section-grid">
@@ -140,60 +178,55 @@ h3 {
       <div><input type="checkbox" id="studies_of_religion_1" name="subjects" value="Studies of Religion 1"> Studies of Religion 1</div>
     </div>
 
-    <h3>Accelerated Subjects taken during Years 9 & 10</h3>
+    <h3>Accelerated Subjects taken during Years 9 and 10</h3>
     <hr>
 
     <div class="section-grid">
       <div><input type="checkbox" id="accelerated_math" name="subjects" value="Accelerated Mathematics (3U)"> Accelerated Mathematics (3U)</div>
       <div><input type="checkbox" id="accelerated_investigating_science" name="subjects" value="Accelerated Investigating Science"> Accelerated Investigating Science (2U)</div>
     </div>
- 
-        <div class="notice-box">
-      <h2>2. Calculator<h2>
-    </div>
+
   </form>
 
-<div class="calculator-box">
-
-  <div class="calculator-header">
-   
+  <div class="notice-box">
+    <h2>2. Calculator</h2>
   </div>
 
-  <table class="calculator-table">
+  <div class="calculator-box">
+    <table class="calculator-table">
+      <tr>
+        <td>Year 11 Units</td>
+        <td><span class="counter-badge" id="year11UnitCount">0</span></td>
+      </tr>
+      <tr>
+        <td>Accelerated Units</td>
+        <td><span class="counter-badge" id="acceleratedUnitCount">0</span></td>
+      </tr>
+      <tr>
+        <td>Total Units</td>
+        <td><span class="counter-badge" id="totalUnitCount">0</span></td>
+      </tr>
+      <tr>
+        <td>Year 11 Science Units</td>
+        <td><span class="counter-badge" id="year11ScienceUnitCount">0</span></td>
+      </tr>
+      <tr>
+        <td>HSC Science Units</td>
+        <td><span class="counter-badge" id="hscScienceUnitCount">0</span></td>
+      </tr>
+    </table>
+  </div>
 
-    <tr>
-      <td>Year 11 Units</td>
-      <td>
-        <span class="counter-badge" id="year11UnitCount">0</span>
-      </td>
-    </tr>
+  <div class="notice-box">
+    <strong>Important for accelerated students:</strong><br>
+    Students undertaking an accelerated course must still select at least
+    <strong>12 units for the commencement of Year 11</strong>, excluding any accelerated units
+    already completed. Accelerated units may only be dropped after the first half of Term 1, Year 11.
+  </div>
 
-    <tr>
-      <td>Accelerated Units</td>
-      <td>
-        <span class="counter-badge" id="acceleratedUnitCount">0</span>
-      </td>
-    </tr>
-
-    <tr>
-      <td>Year 11 Science Units</td>
-      <td>
-        <span class="counter-badge" id="year11ScienceUnitCount">0</span>
-      </td>
-    </tr>
-   
-    <tr>
-      <td>Total Units</td>
-      <td>
-        <span class="counter-badge" id="totalUnitCount">0</span>
-      </td>
-    </tr>
-
-  </table>
- <div class="notice-box">
-<h2>3. Requirements check<h2>
-    </div></div>
-  <hr>
+  <div class="notice-box">
+    <h2>3. Requirements check</h2>
+  </div>
 
   <button type="button" onclick="checkRequirements()">Check Requirements</button>
   <div id="result"></div>
@@ -408,10 +441,3 @@ h3 {
 
 </body>
 </html>
-<div class="notice-box">
-    <strong>Important for accelerated students:</strong><br>
-    Students undertaking an accelerated course must still select at least
-    <strong>12 units for the commencement of Year 11</strong>, excluding any accelerated units
-    already completed. Accelerated units may only be dropped after the first half of Term 1,
-    Year 11.
-  </div>
