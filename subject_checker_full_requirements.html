@@ -206,14 +206,26 @@
         <td>Total Units</td>
         <td><span class="counter-badge" id="totalUnitCount">0</span></td>
       </tr>
-      <tr>
-        <td>Year 11 Science Units</td>
-        <td><span class="counter-badge" id="year11ScienceUnitCount">0</span></td>
-      </tr>
-      <tr>
-        <td>HSC Science Units</td>
-        <td><span class="counter-badge" id="hscScienceUnitCount">0</span></td>
-      </tr>
+     <tr>
+  <td>Year 11 Science Units</td>
+  <td><span class="counter-badge" id="year11ScienceUnitCount">0</span></td>
+</tr>
+
+<tr class="total-row">
+  <td>TOTAL UNITS</td>
+  <td><span class="counter-badge" id="totalUnitCount">0</span></td>
+</tr>
+      .total-row td {
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+  border-top: 3px solid var(--brand);
+}
+
+.total-row .counter-badge {
+  font-size: 18px;
+  min-width: 45px;
+}
     </table>
   </div>
 
@@ -334,10 +346,10 @@
 
       document.getElementById("year11UnitCount").textContent = pattern.year11Units;
       document.getElementById("acceleratedUnitCount").textContent = pattern.acceleratedUnits;
-      document.getElementById("totalUnitCount").textContent = pattern.totalUnits;
       document.getElementById("year11ScienceUnitCount").textContent = pattern.year11ScienceUnits;
-      document.getElementById("hscScienceUnitCount").textContent = pattern.hscScienceUnits;
-    }
+      document.getElementById("totalUnitCount").textContent = pattern.totalUnits;
+     
+         }
 
     function handleAcceleratedMathToggle() {
       const acceleratedMath = document.getElementById("accelerated_math");
