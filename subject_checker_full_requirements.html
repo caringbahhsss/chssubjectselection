@@ -215,9 +215,9 @@
 
   <div class="notice-box">
     <strong>Important for accelerated students:</strong><br>
-    Students undertaking an accelerated course must still select at least
-    <strong>12 units for the commencement of Year 11</strong>, excluding any accelerated units
-    already completed. Accelerated units may only be dropped after the first half of Term 1, Year 11.
+    Students who have undertaken Accelerated Investigating Science must still select at least
+    <strong>12 units for the commencement of Year 11</strong>, excluding that accelerated course
+    already completed. Accelerated units may only be dropped after the first half of Term 1, Year 11. Students undertaking Accelerated Mathematics have their 3 units of Mathematics included as part of their 12 Year 11 units.
   </div>
 
   <div class="notice-box">
@@ -263,8 +263,8 @@
       "Mathematics Extension 1": { units: 1, subject: "Mathematics", nesaDeveloped: true, english: false, science: false, accelerated: false },
       "Studies of Religion 1": { units: 1, subject: "Studies of Religion", nesaDeveloped: true, english: false, science: false, accelerated: false },
 
-      "Accelerated Mathematics (3U)": { units: 3, subject: "Mathematics", nesaDeveloped: true, english: false, science: false, accelerated: true },
-      "Accelerated Investigating Science": { units: 2, subject: "Investigating Science", nesaDeveloped: true, english: false, science: true, accelerated: true }
+      "Accelerated Mathematics (3U)": { units: 3, subject: "Mathematics", nesaDeveloped: true, english: false, science: false, accelerated: false, acceleratedMath: true },
+      "Accelerated Investigating Science": { units: 2, subject: "Investigating Science", nesaDeveloped: true, english: false, science: true, accelerated: true, acceleratedMath: false }
     };
 
     function getSelectedSubjects() {
@@ -281,8 +281,8 @@
     function calculatePattern() {
       const courses = getSelectedCourses();
 
-      const year11Courses = courses.filter(course => !course.accelerated);
-      const acceleratedCourses = courses.filter(course => course.accelerated);
+     const year11Courses = courses.filter(course => !course.accelerated || course.acceleratedMath);
+const acceleratedCourses = courses.filter(course => course.accelerated && !course.acceleratedMath);
 
       const totalUnits = courses.reduce((sum, course) => sum + course.units, 0);
       const year11Units = year11Courses.reduce((sum, course) => sum + course.units, 0);
